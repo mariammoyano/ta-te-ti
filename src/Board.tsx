@@ -1,12 +1,18 @@
-import { useState } from "react"
-import { Cell } from "./Cell"
+import { useState } from 'react'
+import { Cell } from './Cell'
+import { calcWinner } from './helpers'
 
 export const Board = () => {
   const [isXNext, setIsXNext] = useState(true)
   const [cells, setCells] = useState(new Array(9).fill(null))
 
+  const winner = calcWinner(cells)
+  const status = winner 
+    ? `Winner is ${winner}`
+    : `Next player: ${isXNext ? 'X' : 'O'}` 
+
   const clickHandler = (i: number) => {
-    if (cells[i]) {
+    if (cells[i] || calcWinner(cells)) {
       return
     }
     const nextCells = cells.slice()
@@ -17,6 +23,7 @@ export const Board = () => {
   
   return (
     <>
+      <div className="status">{status}</div>
       <div className="board-row">
         <Cell value={cells[0]} onCellClick={() => clickHandler(0)} />
         <Cell value={cells[1]} onCellClick={() => clickHandler(1)} />
