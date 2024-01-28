@@ -1,7 +1,7 @@
-// import { useState } from "react";
+import { Board } from "./Board"
 
-const Cell = () => { 
-  return <button className="cell">X</button>
- }
+const Game = () => { 
+  return <Board />
+}
 
-export default Cell;
+export default Game
