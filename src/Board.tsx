@@ -1,15 +1,17 @@
-import { useState } from 'react'
 import { Cell } from './Cell'
 import { calcWinner } from './helpers'
 
-export const Board = () => {
-  const [isXNext, setIsXNext] = useState(true)
-  const [cells, setCells] = useState(new Array(9).fill(null))
+interface BoardProps {
+  isXNext: boolean
+  cells: string[]
+  onPlay: (c: string[]) => void
+}
 
+export const Board = ({ isXNext, cells, onPlay }: BoardProps) => {
   const winner = calcWinner(cells)
-  const status = winner 
+  const status = winner
     ? `Winner is ${winner}`
-    : `Next player: ${isXNext ? 'X' : 'O'}` 
+    : `Next player: ${isXNext ? 'X' : 'O'}`
 
   const clickHandler = (i: number) => {
     if (cells[i] || calcWinner(cells)) {
@@ -17,10 +19,9 @@ export const Board = () => {
     }
     const nextCells = cells.slice()
     nextCells[i] = isXNext ? 'X' : 'O'
-    setCells(nextCells)
-    setIsXNext(!isXNext)
+    onPlay(nextCells)
   }
-  
+
   return (
     <>
       <div className="status">{status}</div>
